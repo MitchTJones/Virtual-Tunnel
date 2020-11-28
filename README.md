@@ -1,3 +1,5 @@
+![UR Painted Tunnel Logo](https://github.com/MitchTJones/Virtual-Tunnel/blob/main/app/static/favicon/main.png?raw=true)
+
 # CSC211 Final Group Project: Virtual Painted Tunnel
 
 ## How to Develop
