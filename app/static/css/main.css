@@ -1,0 +1,63 @@
+html {
+    overflow-y: hidden;
+}
+
+main {
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+.fs {
+    height:100%;
+    width:100%;
+}
+
+#canvas {
+    position:absolute;
+    z-index:1;
+    /*background:#222;*/
+}
+
+#logo {
+    opacity:0.7;
+    position:absolute;
+    z-index:0;
+    height:20vw;
+    width:20vw;
+    left:20px;
+    top:0;
+    max-height:125px;
+    max-width:125px;
+    min-height:50px;
+    min-width:50px;
+}
+
+#dropdown {
+    position:absolute;
+    top:20px;
+    right:20px;
+}
+
+/*#wrapper {*/
+/*    position:relative;*/
+/*    width:960px;*/
+/*    margin:0 auto;*/
+/*    padding-top:75px;}*/
+
+/*<!-- Blackboard -->*/
+/*#blackboardPlaceholder {*/
+/*    background:url(../images/blackboard.png) no-repeat;*/
+/*    width:924px;*/
+/*    height:599px;*/
+/*    margin:0 auto;*/
+/*    padding:14px 0 75px 14px;*/
+/*    cursor:crosshair;*/
+/*}*/
+
+.hf {
+    position:absolute;
+    bottom:0;
+    right:0;
+    background:white;
+}
