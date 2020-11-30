@@ -1,23 +1,14 @@
 /* Adapted from Yusuf Sezer's javascript-canvas-painting - https://github.com/yusufsefasezer/javascript-canvas-painting */
 
 "use strict";
-var canvas = null,
-    btnClear = null,
+var btnClear = null,
     btnSave = null,
     inputColor = null,
     inputSize = null,
-    ctx = null,
     isDrawing = false,
     lineWidth = 3;
 
 function initialize() {
-    canvas = document.querySelector("#canvas");
-    let canvasDims = canvas.parentElement.getBoundingClientRect();
-    canvas.width = canvasDims.width;
-    canvas.height = canvasDims.height;
-
-    ctx = canvas.getContext("2d");
-
     btnClear = document.querySelector("#clear");
     btnSave = document.querySelector("#save");
     inputColor = document.querySelector("#color");
@@ -26,11 +17,11 @@ function initialize() {
     window.onmouseup = function () {
         isDrawing = false;
         ctx.beginPath();
-    }
+    };
 
     canvas.onmousedown = function (e) {
         isDrawing = true;
-    }
+    };
 
     canvas.onmousemove = function (e) {
         if (isDrawing) {
