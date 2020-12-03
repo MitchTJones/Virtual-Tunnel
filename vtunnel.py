@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, url_for, redirect, flash
 from flask import Flask
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -6,11 +6,12 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectMultipleField,  widgets
 from wtforms.validators import DataRequired, ValidationError, DataRequired, Email, EqualTo
 from flask_login import LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy.sql import text
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -18,13 +19,15 @@ application = app
 migrate = Migrate(app, db)
 login = LoginManager(app)
 
-
+##configs
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
 app.config['SECRET_KEY'] = 'hci-2020-hard-to-guess'
+app.config["IMAGE_UPLOADS"] = 'static/uploads'
 
+#running shell- can delete later
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User, 'Post': Post}
+    return {'db': db, 'User': User, 'Post': Post, 'Organization': Organization}
 
 
 ##Users DB
@@ -34,25 +37,41 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    affiliated_org = db.relationship('Organization', backref='affiliations', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def get_id(self):
+        return self.id
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+
 ##Posts DB
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    filepath = db.Column(db.String(140))
+    filename = db.Column(db.String(140))
+    description = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+
     def __repr__(self):
-        return '<Post {}>'.format(self.filepath) 
+        return '<Post {}>'.format(self.description) 
+
+##Organizations DB
+class Organization(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    org = db.Column(db.String(140))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    def __repr__(self):
+        return '<Organization {}>'.format(self.org) 
+
 
 ##Forms
 class LoginForm(FlaskForm):
@@ -67,6 +86,8 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    data = [('bsu','Black Student Union'), ('uf','Ultimate Frisbee'), ('cac','Creative Arts Club'), ('sdt','SDT Sorority')]
+    orgs = SelectMultipleField('Select organizations', choices=data, option_widget=widgets.CheckboxInput(), widget=widgets.ListWidget(prefix_label=False))
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -120,9 +141,19 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        username = form.username.data
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
+        db.session.commit()
+        registered_user = User.query.filter_by(username=username).first()
+        user_id = registered_user.id
+        orglist =  form.orgs.data
+        print(orglist)
+        print(user_id)
+        for org in orglist:
+            new_org_entry = Organization(user_id = user_id, org = org)
+            db.session.add(new_org_entry)
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('signup.html', title='Register', form=form)
@@ -137,4 +168,8 @@ def gallery():
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    if current_user.is_authenticated:
+        orgs = Organization.query.filter_by(user_id=current_user.id)
+        return render_template('home.html', orgs = orgs)
+    else:
+        return render_template('home.html')
