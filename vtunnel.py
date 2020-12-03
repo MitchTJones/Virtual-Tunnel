@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError, DataRequired, Email, EqualTo
 from flask_login import LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -27,7 +27,7 @@ def make_shell_context():
     return {'db': db, 'User': User, 'Post': Post}
 
 
-#db of users
+##Users DB
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -44,7 +44,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-#db of posts to the virtual tunnel
+##Posts DB
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filepath = db.Column(db.String(140))
@@ -54,17 +54,35 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.filepath) 
 
-
+##Forms
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different email address.')
 
 
 
 
+##Paths
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -96,9 +114,18 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/register/')
+@app.route('/register/', methods=['GET', 'POST'])
 def register():
-    return render_template('signup.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('signup.html', title='Register', form=form)
 
 @app.route('/paint')
 def paint():
