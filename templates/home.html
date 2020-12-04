@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'includes/head.html' %}
+    <title>UR Painted Tunnel</title>
+    <meta name='description' content='TODO: write descriptions'>
+    <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
+    {% include 'includes/header.html' %}
+</head>
+<body>
+            <br>
+            <div class="container">
+                <div class="center">
+                    <div class = "button">
+                <button type="button" onclick="window.location.href='{{url_for('gallery')}}';">View Gallery</button>
+                <br>
+                {% if current_user.is_anonymous %}
+                <button type= "button" onclick="window.location.href='{{url_for('login')}}';">Login</a></button>
+                <button type= "button" onclick="window.location.href='{{url_for('register')}}';">Register</a></button>
+                <br>
+                {% else %}
+                <button type= "button" onclick="window.location.href='{{url_for('paint')}}';">Paint</a></button>
+                <br>
+                <button type= "button" onclick="window.location.href='{{url_for('logout')}}';">Logout {{ current_user.username }} </a> </button>
+                <br>
+                <h1>Hi, {{ current_user.username }}!</h1>
+                <h3>You are a member of: </h3>
+                <ul>
+                    {% for org in orgs %}
+                    <li>{{org.org}}</li>
+                </ul>
+                {% endfor %}
+                
+                {% endif %}
+            </div>
+        </div>
+            </div>
+
+
+        </div>
+        <br>
+
+    </main>
+    {% include 'includes/footer.html' %}
+</body>
+<style>
+.container {
+    height: 200px;
+    position: relative;
+  }
+  
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .button {
+    width: 250px;
+  }
+
+
+  </style>
+</html>
