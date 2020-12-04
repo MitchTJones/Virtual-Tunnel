@@ -38,7 +38,8 @@ main {
 #color {
     display:flex;
     justify-content:center;
-    font-family: 'Roboto Mono', monospace;
+    font-family:'Roboto Mono', monospace;
+    text-transform:uppercase;
 }
 #dropdown {
     position:absolute;
