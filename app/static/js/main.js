@@ -54,6 +54,13 @@ $(document).ready(() => {
         else
             tool = "none";
     });
+    $(window).on('resize', function() {
+        var current = map;
+        var jq = $(this);
+        canvas.width = jq.width();
+        canvas.height = jq.height();
+        drawFromPlots(current);
+    });
 });
 
 function toggleSidebar(sidebar) {
