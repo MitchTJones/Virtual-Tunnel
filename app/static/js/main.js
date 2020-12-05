@@ -1,6 +1,16 @@
 let canvas, ctx;
 
 $(document).ready(() => {
+    let body = $('.body');
+    let accountButton = $('#accountButton');
+    let sidebar = $('.sidebar');
+    let sidebarClose = $('.close');
+    let sidebarError = $('.sidebarError');
+    let sidebarFlash = $('.sidebarFlash');
+    accountButton.click(function() {toggleSidebar(sidebar)});
+    sidebarClose.click(function() {toggleSidebar(sidebar)});
+    if(sidebarError.children().length > 0 || sidebarFlash.children().length > 0)
+        sidebar.addClass('open');
     canvas = document.querySelector("#canvas");
     let canvasDims = canvas.parentElement.getBoundingClientRect();
     canvas.width = canvasDims.width;
@@ -24,7 +34,25 @@ $(document).ready(() => {
         else
             jq.addClass('active');
     });
+    $('.pageTurn').click(function() {
+        let tgtId = $(this).data('target'), tgt = $('#'+tgtId);
+        let curId = body.data('currentpage'), cur = $('#'+curId);
+        if (tgtId == curId)
+            return;
+        console.log('Current: ' + curId + ' | Target: ' + tgtId);
+        cur.addClass('hidden');
+        tgt.removeClass('hidden');
+        body.data('currentpage', tgtId);
+    });
 });
+
+function toggleSidebar(sidebar) {
+    sidebar.animate({width:'toggle'},500);
+    if (sidebar.hasClass('open'))
+        sidebar.removeClass('open');
+    else
+        sidebar.addClass('open');
+}
 
 function pick(c) {
     $('#colorPicker .control').css('color', c);
