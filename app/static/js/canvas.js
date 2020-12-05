@@ -6,7 +6,8 @@ var btnClear = null,
     inputColor = null,
     inputSize = null,
     isDrawing = false,
-    lineWidth = 3;
+    lineWidth = 3,
+    tool = "brush";
 
 let map = [];
 let currentStroke = null;
@@ -32,7 +33,8 @@ function initialize() {
     };
 
     canvas.onmousedown = function (e) {
-        isDrawing = true;
+        if (tool != "none")
+            isDrawing = true;
         currentStroke = [];
     };
 

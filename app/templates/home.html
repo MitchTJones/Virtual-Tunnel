@@ -8,6 +8,7 @@
 <body>
     {% include 'includes/header.html' %}
     <main class="body fs" data-currentPage="{{ activePage }}">
+        <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
         <div id="accountButton" class="tr control">
             <i id="userIcon" class="fas fa-user-circle"></i>
         </div>
@@ -26,62 +27,64 @@
                     <h3>My Organizations</h3>
                     <a class='button' href="{{ url_for('logout') }}">Log Out</a>
                 {% else %}
-                <h2>Your Account</h2>
-                <form name='loginForm' method='POST' action='{{ url_for("login") }}'>
-                    {{ lform.hidden_tag() }}
-                    <div class='line'>{{ lform.username.label }}{{ lform.username() }}</div><br>
-                    <div class='line'>{{ lform.password.label }}{{ lform.password() }}</div><br>
-                    <div class='line'>{{ lform.remember_me.label }}<label class='check'>{{ lform.remember_me() }}<span class='checkmark'></span></label></div><br>
-                    <button class='button fSubmit'>Login</button>
-                </form>
-                <h4>OR</h4>
-                <form name='signupForm' method='POST' action='{{ url_for("signup") }}'>
-                    {{ sform.hidden_tag() }}
-                    <div class='line'>{{ sform.email.label }}{{ sform.email() }}</div><br>
-                    <div class='line'>{{ sform.username.label }}{{ sform.username() }}</div><br>
-                    <div class='line'>{{ sform.password.label }}{{ sform.password() }}</div><br>
-                    <div class='line'>{{ sform.password2.label }}{{ sform.password2() }}</div><br>
-                    {{ sform.recaptcha }}
-                    <button class='button fSubmit'>Sign Up</button>
-                </form>
+                    <h2>Your Account</h2>
+                    <form name='loginForm' method='POST' action='{{ url_for("login") }}'>
+                        {{ lform.hidden_tag() }}
+                        <div class='line'>{{ lform.username.label }}{{ lform.username() }}</div><br>
+                        <div class='line'>{{ lform.password.label }}{{ lform.password() }}</div><br>
+                        <div class='line'>{{ lform.remember_me.label }}<label class='check'>{{ lform.remember_me() }}<span class='checkmark'></span></label></div><br>
+                        <button class='button fSubmit'>Login</button>
+                    </form>
+                    <h4>OR</h4>
+                    <form name='signupForm' method='POST' action='{{ url_for("signup") }}'>
+                        {{ sform.hidden_tag() }}
+                        <div class='line'>{{ sform.email.label }}{{ sform.email() }}</div><br>
+                        <div class='line'>{{ sform.username.label }}{{ sform.username() }}</div><br>
+                        <div class='line'>{{ sform.password.label }}{{ sform.password() }}</div><br>
+                        <div class='line'>{{ sform.password2.label }}{{ sform.password2() }}</div><br>
+                        {{ sform.recaptcha }}
+                        <button class='button fSubmit'>Sign Up</button>
+                    </form>
                 {% endif %}
             </div>
             <div class='sidebarFlash'>
                 {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages%}
-                {% if message|first == '~' %}
-                <div>{{ message|replace('~', '') }}</div>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '~' %}
+                                <div>{{ message|replace('~', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endwith %}
             </div>
             <div class='sidebarError'>
                 {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages%}
-                {% if message|first == '`' %}
-                <div>{{ message|replace('`', '') }}</div>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '`' %}
+                                <div>{{ message|replace('`', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endwith %}
             </div>
         </div>
         <div id="galleryPage" class="fs page hidden">
-
+            <div class="controls br">
+                <i class="fas fa-paint-brush control pageTurn" data-target="paintPage"></i>
+            </div>
         </div>
         <div id="paintPage" class="fs page">
             <div id="wrapper" class="fs">
-                <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
                 <canvas id="canvas" class="fs"></canvas>
                 <div class="controls bl fc">
-                    <i class="fas fa-paint-brush control toggle active"></i>
+                    <i class="fas fa-paint-brush control tool toggle active" data-name="brush"></i>
                     <div id="colorPicker">
                         <i class="fas fa-palette control active"></i>
                         <div id="color">000000</div>
                     </div>
+                    <input id="strokePicker" class="control" type="range" value="25">
                 </div>
                 <div class="controls br">
                     <i class="fas fa-th control pageTurn" data-target="galleryPage"></i>

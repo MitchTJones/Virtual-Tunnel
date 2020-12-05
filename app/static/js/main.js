@@ -27,6 +27,9 @@ $(document).ready(() => {
         pick(jq.css('background-color'));
         jq.parent().toggle('fast');
     });
+    $('#strokePicker').click(function() {
+        lineWidth = $(this).val()/5;
+    });
     $('.toggle').click(function() {
         var jq = $(this);
         if (jq.hasClass('active'))
@@ -43,6 +46,13 @@ $(document).ready(() => {
         cur.addClass('hidden');
         tgt.removeClass('hidden');
         body.data('currentpage', tgtId);
+    });
+    $('.tool').click(function() {
+        var jq = $(this);
+        if (jq.hasClass('active'))
+            tool = $(this).data('tool');
+        else
+            tool = "none";
     });
 });
 
