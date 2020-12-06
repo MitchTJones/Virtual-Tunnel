@@ -90,7 +90,7 @@
                     <input id="strokePicker" class="control" type="range" value="25">
                 </div>
                 <div class="controls br fc">
-                    <i class="fas fa-info-circle control modalButton" data-target="enterInfo" id="showInfo"></i>
+                    <i class="fas fa-info-circle control" id="showInfo"></i>
                     <i class="fas fa-th control pageTurn" data-target="galleryPage"></i>
                 </div>
             </div>
@@ -106,18 +106,28 @@
                     {{ uform.hidden_tag() }}
                     {{ uform.description }}
                     {{ uform.org }}
-                    {% if orgs %}
-                    {% for org in orgs %}
-                    
-
-                    {% endfor %}
-                    {% endif %}
+                    {{ uform.art }}
+                    <div id="orgSelect">
+                        {% if orgs %}
+                            {% for org in orgs %}
+                                <div class="org" data-id='{{ org.id }}'>{{ org.org }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     <button class='button fSubmit'>Submit</button>
                 </form>
             </div>
         </div>
     </div>
-<!--    <script> var p = new Painter(containerPainter); </script>-->
+    <div class="modal hidden" id="viewInfo">
+        <div class="modalContent">
+            <div class="fs">
+                <div class='faButton closeParents'><i class="fas fa-times"></i></div>
+                <h3>Title</h3>
+                <h5>Description</h5>
+            </div>
+        </div>
+    </div>
     {% include 'includes/footer.html' %}
 </body>
 </html>

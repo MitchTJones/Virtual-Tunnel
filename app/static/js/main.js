@@ -1,5 +1,5 @@
 let canvas, ctx;
-
+let view = false;
 $(document).ready(() => {
     let body = $('.body');
     let accountButton = $('#accountButton');
@@ -42,7 +42,6 @@ $(document).ready(() => {
         let curId = body.data('currentpage'), cur = $('#'+curId);
         if (tgtId == curId)
             return;
-        console.log('Current: ' + curId + ' | Target: ' + tgtId);
         cur.addClass('hidden');
         tgt.removeClass('hidden');
         body.data('currentpage', tgtId);
@@ -58,12 +57,26 @@ $(document).ready(() => {
         var jq = $(this), tgt = $('#'+jq.data('target'));
         tgt.removeClass('hidden');
     });
+    $('#showInfo').click(function() {
+        var jq = $(this);
+        $(view ? '#viewInfo' : '#enterInfo').removeClass('hidden');
+    });
     $('.modal').click(function(e) {
         if(e.target !== e.currentTarget) return;
         $(this).addClass('hidden').children().click(function(e) { return false; });
     });
     $('.closeParents').click(function() {
         $(this).parents('.modal').addClass('hidden');
+    });
+    $('.org').click(function() {
+        var jq = $(this);
+        if (jq.hasClass('active')) {
+            jq.removeClass('active');
+            return;
+        }
+        $('.org').removeClass('active');
+        jq.addClass('active');
+        $('#org').val('');
     });
     $(window).on('resize', function() {
         var jq = $(this);

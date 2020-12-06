@@ -32,4 +32,5 @@ class RegistrationForm(FlaskForm):
 class SubmitForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     org = HiddenField('Organization')
+    art = HiddenField('Artwork')
     submit = SubmitField('Publish')

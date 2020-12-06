@@ -334,7 +334,7 @@ li > label, li > input {
     border-radius:10px;
     width:80%;
 }
-.modalContent > .fs {
+.modalContent .fs {
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -374,6 +374,27 @@ li > label, li > input {
     text-decoration:none;
     cursor:pointer;
 }
+#orgSelect {
+    display:flex;
+    flex-direction:row;
+    width:66%;
+    justify-content:space-evenly;
+}
+#orgSelect > div {
+    padding:20px;
+    margin: 15px 0;
+    border-radius:3px;
+    background:#ddd;
+    cursor:pointer;
+}
+#orgSelect > div.active {
+    padding:20px;
+    margin: 15px 0;
+    border-radius:3px;
+    background:#555;
+    color:white;
+    cursor:pointer;
+ }
 
 /*
     Button graphics adapted from Emanuel Gonçalves' (https://emanuelgsouza.dev/) work at https://codepen.io/emanuelgsouza/pen/YVJOZo. https://emanuelgsouza.dev/
