@@ -24,49 +24,6 @@ $(document).ready(() => {
         else
             jq.addClass('active');
     });
-<<<<<<< Updated upstream
-=======
-    $('.pageTurn').click(function() {
-        let tgtId = $(this).data('target'), tgt = $('#'+tgtId);
-        let curId = body.data('currentpage'), cur = $('#'+curId);
-        if (tgtId == curId)
-            return;
-        console.log('Current: ' + curId + ' | Target: ' + tgtId);
-        cur.addClass('hidden');
-        tgt.removeClass('hidden');
-        body.data('currentpage', tgtId);
-    });
-    $('.tool').click(function() {
-        var jq = $(this);
-        if (jq.hasClass('active'))
-            tool = $(this).data('tool');
-        else
-            tool = "none";
-    });
-    $(window).on('resize', function() {
-        var current = map;
-        var jq = $(this);
-        canvas.width = jq.width();
-        canvas.height = jq.height();
-        drawFromPlots(current);
-    });
-    /*$('.savePostBtn').click(function() {
-        html2canvas($(canvas), {
-            onrendered: function(canvas) {
-                var source = canvas.toDataURL("img/png");
-                console.log(source);
-                $("#newimg").attr('src', imgsrc); 
-                //$("#img").show();
-                var datasrc = canvas.toDataURL();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ url_for("savePost") }}',
-                    data: { imgBase64: datasrc }
-                }).done(function(o) { console.log("saved"); });
-            }
-        });
-    });*/
->>>>>>> Stashed changes
 });
 
 function pick(c) {
