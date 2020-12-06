@@ -38,6 +38,7 @@ class Post(db.Model):
     filename = db.Column(db.String(140))
     description = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    org = db.Column(db.String(140))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 

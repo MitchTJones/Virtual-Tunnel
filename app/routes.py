@@ -12,11 +12,32 @@ page = 'paintPage'
 
 @app.route('/')
 def index():
+    uform = UploadForm() 
+    if uform.validate_on_submit():
+        uploaded_file = uform.file.data #Make sure you're feeding the image file into this field with a filename
+        if uploaded_file.filename != '':
+            uploaded_file.save(os.path.join(app.config["IMAGE_UPLOADS"], uploaded_file.filename)) #image stored in static/uploads
+            user_id = current_user.id
+            description = uform.description.data
+            org = uform.organization.data #from list of user orgs
+            new_post = Post(filename=uploaded_file.filename, org = org, description = description, user_id = user_id)
+            try:
+                db.session.add(new_post)
+                db.session.commit()
+                return redirect(url_for('gallery')) ##Where gallery goes
+            except:
+                print(filename)
+                return "error"
     return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), user = current_user)
 
 @app.route('/test')
 def test():
     return render_template('test.html')
+
+@app.route('/gallery')
+def gallery():
+    posts = Post.query.order_by(Post.timestamp)
+    return render_template('gallery.html', posts =posts) #use posts for jinja2 templates
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
