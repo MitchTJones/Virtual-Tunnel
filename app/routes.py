@@ -14,14 +14,15 @@ def flash_errors(form, type):
     for field, errors in form.errors.items():
         for error in errors:
             flash(type+error)
+            return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user)
 
 @app.route('/')
 def index():
-    # orgs = False
+    orgs = False
     if current_user.is_authenticated:
         orgs = Organization.query.filter_by(user_id=current_user.id)
-    print(orgs)
-    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, orgs = orgs)
+        return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, orgs = orgs)
+    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user)
 
 @app.route('/test')
 def test():
@@ -34,6 +35,7 @@ def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
         new_user = User(username=form.username.data, email=form.email.data)
+        username = form.username.data
         new_user.set_password(form.password.data)
         if User.query.filter_by(username=form.username.data).first() is not None:
             flash('`Username taken')
@@ -43,7 +45,15 @@ def signup():
             return redirect('/')
         db.session.add(new_user)
         db.session.commit()
-
+        registered_user = User.query.filter_by(username=username).first()
+        user_id = registered_user.id
+        orglist =  form.orgs.data
+        print(orglist)
+        print(user_id)
+        for org in orglist:
+            new_org_entry = Organization(user_id = user_id, org = org)
+            db.session.add(new_org_entry)
+        db.session.commit()
         login_user(new_user)
         flash('~Account ' + form.username.data + ' Created.')
         return redirect('/')
