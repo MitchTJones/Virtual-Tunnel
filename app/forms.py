@@ -15,7 +15,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    data = [('bsu','Black Student Union'), ('uf','Ultimate Frisbee'), ('cac','Creative Arts Club'), ('sdt','SDT Sorority')]
+    data = [('Black Student Union','Black Student Union'), ('Ultimate Frisbee','Ultimate Frisbee'), ('Creative Arts Club','Creative Arts Club'), ('SDT Sorority','SDT Sorority')]
     orgs = SelectMultipleField('Select organizations', choices=data, option_widget=widgets.CheckboxInput(), widget=widgets.ListWidget(prefix_label=False))
     submit = SubmitField('Register')
 
