@@ -7,6 +7,7 @@
 </head>
 <body>
     {% include 'includes/header.html' %}
+<<<<<<< Updated upstream
     <main class='body fs'>
         <div id="wrapper" class="fs">
             <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
@@ -34,6 +35,111 @@
                 <div id="colorPicker">
                     <i class="fas fa-palette control active"></i>
                     <div id="color">000000</div>
+=======
+    <main class="body fs" data-currentPage="{{ activePage }}">
+        <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
+        <div id="accountButton" class="tr control">
+            <i id="userIcon" class="fas fa-user-circle"></i>
+        </div>
+        <div class='sidebar'>
+            <div class='sidebarContent'>
+                <div class='account'>
+                    <i class='faButton fas fa-user-circle'></i>
+                    <div class='uname'>{% if user.is_authenticated %}{{ user.username }}{% endif %}</div>
+                    <div class='close faButton'><i class="fas fa-times"></i></div>
+                </div>
+                {% if user.is_authenticated %}
+                    <h3>My Artworks</h3>
+    <!--                {% for event in userEvents%}-->
+    <!--                    <a class='eventLink sl' href="{{ url_for('event', eventId=event.event_id) }}">{{event.name}}</a>-->
+    <!--                {% endfor %}-->
+                    <h3>My Organizations</h3>
+                    <div class='organizations'>
+                        {% for org in user.affiliated_org %}
+                            {{ org }}<br> <!-- TODO: make output look nicer -->
+                        {% endfor%}
+                    </div>
+                    <a class='button' href="{{ url_for('logout') }}">Log Out</a>
+                {% else %}
+                    <h2>Your Account</h2>
+                    <form name='loginForm' method='POST' action='{{ url_for("login") }}'>
+                        {{ lform.hidden_tag() }}
+                        <div class='line'>{{ lform.username.label }}{{ lform.username() }}</div><br>
+                        <div class='line'>{{ lform.password.label }}{{ lform.password() }}</div><br>
+                        <div class='line'>{{ lform.remember_me.label }}<label class='check'>{{ lform.remember_me() }}<span class='checkmark'></span></label></div><br>
+                        <button class='button fSubmit'>Login</button>
+                    </form>
+                    <h4>OR</h4>
+                    <form name='signupForm' method='POST' action='{{ url_for("signup") }}'>
+                        {{ sform.hidden_tag() }}
+                        <div class='line'>{{ sform.email.label }}{{ sform.email() }}</div><br>
+                        <div class='line'>{{ sform.username.label }}{{ sform.username() }}</div><br>
+                        <div class='line'>{{ sform.password.label }}{{ sform.password() }}</div><br>
+                        <div class='line'>{{ sform.password2.label }}{{ sform.password2() }}</div><br>
+                        <div class='line' name='orgMS'>{{ sform.orgs.label }}{{ sform.orgs(multiple=True) }}</div><br>
+                        {{ sform.recaptcha }}
+                        <button class='button fSubmit'>Sign Up</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class='sidebarFlash'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '~' %}
+                                <div>{{ message|replace('~', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class='sidebarError'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '`' %}
+                                <div>{{ message|replace('`', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        <div id="galleryPage" class="fs page hidden">
+            <div class="controls br">
+                <i class="fas fa-paint-brush control pageTurn" data-target="paintPage"></i>
+            </div>
+            
+        </div>
+        <div id="paintPage" class="fs page">
+            <div id="wrapper" class="fs">
+                <canvas id="canvas" class="fs"></canvas>
+                <div class="controls bl fc">
+                    <i class="fas fa-paint-brush control tool toggle active" data-name="brush"></i>
+                    <div id="colorPicker">
+                        <i class="fas fa-palette control active"></i>
+                        <div id="color">000000</div>
+                    </div>
+                    <input id="strokePicker" class="control" type="range" value="25"> <!--  -->
+                    
+                    <!--<button class="tool toggle control" data-target="savePost">Save Post</button><!--
+                    <input type="submit" value="save" id="save" name="save" data-target="#savePost"> 
+                    <div class="br tool">
+                        <button id="savePostBtn">Save Post</button>
+                    </div>-->
+                    <div id="savePost" class="br form-popup">
+                        <form class="form-container" name="savePostForm" method="POST" action='{{ url_for("savePost") }}'>
+                            {{ pform.hidden_tag() }}
+                            <div class="line">{{ pform.description.label }}{{ pform.description() }}</div>
+                            <!--<div class="line">{{ pform.affiliation.label }}{{ pform.affiliation() }}</div>-->
+                            <button id="savePostBtn" class='button fSubmit'>Save Post</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="controls br fc">
+                    <i class="fas fa-info-circle control" id="showInfo"></i>
+                    <i class="fas fa-th control pageTurn" data-target="galleryPage"></i>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>

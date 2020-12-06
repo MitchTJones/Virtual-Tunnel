@@ -18,10 +18,11 @@ function Stroke(col, pl, w) {
 }
 
 function initialize() {
-    btnClear = document.querySelector("#clear");
+    canvas = document.querySelector("#canvas");
+    //btnClear = document.querySelector("#clear");
     btnSave = document.querySelector("#save");
     inputColor = document.querySelector("#color");
-    inputSize = document.querySelector("#size");
+    //inputSize = document.querySelector("#size");
 
     window.onmouseup = function () {
         isDrawing = false;

@@ -98,4 +98,328 @@ main {
     bottom:0;
     right:0;
     background:white;
+<<<<<<< Updated upstream
+=======
+}
+
+.sidebar {
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:0;
+    right:0;
+    height:100vh !important;
+    width:400px;
+    background:white;
+    box-shadow:0 0 8px 0px #B3B3B3;
+    overflow-y:scroll;
+    z-index:3;
+}
+.sidebar.open {
+    display:flex !important;
+}
+.sidebar > .close {
+    position:absolute;
+    top:31px;
+    right:31px;
+}
+.sidebarContent {
+    width:90%;
+    display:flex;
+    flex-direction:column;
+    padding:13px 5%;
+    flex-grow:1;
+}
+.sidebarContent .account {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    height:80px;
+}
+.sidebarContent .account .uname .organizations {
+    flex-grow:1;
+    padding:0 15px;
+}
+.sidebarContent h3 {
+    font-weight:normal;
+    text-align:center;
+}
+#pwReset {
+    text-align: center;
+}
+.sl {
+    margin:10px 2em;
+    text-decoration:none;
+    font-weight:bolder;
+    color:#656565;
+}
+.sl:hover {
+    cursor:pointer;
+    color:#454545;
+}
+.sidebarContent h2 {
+    font-family:'Montserrat';
+    font-size:32px;
+}
+.sidebarContent h4 {
+    font-family:'Montserrat';
+    text-align:center;
+    font-size:20px;
+}
+.faButton {
+    font-size:27pt;
+    color:#999;
+    cursor:pointer;
+}
+form {
+    text-align:center;
+}
+.line {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:5px 0;
+    border:0;
+    border-bottom: 1px solid gray;
+}
+.line.border {
+    border-bottom: 1px solid gray !important;
+}
+.line.border > input {
+    flex-grow:1;
+    max-width:50%;
+    border:none !important;
+}
+label {
+    width:25%;
+    display:inline-block;
+    text-align:left;
+}
+label[for='remember'] {
+    width:90%;
+}
+input {
+    width:75%;
+    background:none;
+    text-align:right;
+    padding:3px;
+    border:0;
+}
+.check {
+    width:25px;
+    margin-bottom:25px;
+    width:10%;
+    display:block;
+    position:relative;
+    padding-left:0;
+    cursor:pointer;
+    font-size:22px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.check input {
+    position:absolute;
+    opacity:0;
+    cursor:pointer;
+    height:0;
+    width:0;
+}
+.checkmark {
+    position:absolute;
+    top:0;
+    left:0;
+    height:25px;
+    width:25px;
+    background-color:#eee;
+}
+.check:hover input ~ .checkmark {
+    background-color:#bbb;
+}
+.check input:checked ~ .checkmark {
+    background-color:black;
+}
+.checkmark:after {
+    content:'';
+    position:absolute;
+    display:none;
+}
+.check input:checked ~ .checkmark:after {
+    display:block;
+}
+.check .checkmark:after {
+    left:9px;
+    top:5px;
+    width:5px;
+    height:10px;
+    border:solid white;
+    border-width:0 3px 3px 0;
+    -webkit-transform:rotate(45deg);
+    -ms-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+.sidebarError {
+    background:#E04E39;
+    width:100%;
+    height:auto;
+}
+.sidebarError > div {
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+.sidebarFlash {
+    background:#39E04E;
+    width:100%;
+    height:auto;
+}
+.sidebarFlash > div {
+    color:#454545;
+    padding:15px;
+    text-align:center;
+}
+.sidebarContent .g-recaptcha {
+    width:100%;
+}
+.sidebarContent .g-recaptcha > div {
+    width:100%;
+}
+.line.border {
+    border-bottom: 1px solid gray !important;
+}
+.line.border > input {
+    flex-grow:1;
+    max-width:50%;
+    border:none !important;
+}
+form {
+    text-align:center;
+}
+.form-popup {
+    display: none;
+    background-color: red;
+    max-height: 50px;
+
+}
+.form-container {
+    max-width: 250px;
+    padding: 10px;
+}
+table {
+    margin: auto;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+/*
+    Button graphics adapted from Emanuel Gonçalves' (https://emanuelgsouza.dev/) work at https://codepen.io/emanuelgsouza/pen/YVJOZo. https://emanuelgsouza.dev/
+ */
+.button {
+    position:relative;
+    padding:1em 1.5em;
+    border:none;
+    background-color:transparent;
+    cursor:pointer;
+    outline:none;
+    text-decoration:none;
+    color:black;
+    font-size:18px;
+    margin:1em 0.8em;
+    width:80%;
+}
+.button:after, .button:before {
+    content:'';
+    display:block;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:1px;
+    background-color:black;
+    transition:all 0.3s ease;
+    transform:scale(0.85);
+}
+.button:hover:before {
+    top:0;
+    transform:scale(1);
+}
+.button:hover:after {
+    transform:scale(1);
+}
+/*
+    Slider graphics adapted from Noah Blon's (https://codepen.io/noahblon/pen/OyajvN) work at https://codepen.io/emanuelgsouza/pen/YVJOZo. https://emanuelgsouza.dev/
+ */
+input[type="range"] {
+    margin:5px 15px !important;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    width: 54px;
+    height: 20px;
+    cursor: pointer;
+    border-radius: 0; /* iOS */
+}
+
+::-webkit-slider-runnable-track {
+    background: #ddd;
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px; /* 1 */
+    height: 28px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw gray;
+    border: 2px solid #999; /* 1 */
+}
+
+::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+}
+
+::-moz-range-thumb {
+    background: #fff;
+    height: 28px;
+    width: 15px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw gray;
+    box-sizing: border-box;
+}
+
+::-ms-fill-lower {
+    background: dodgerblue;
+}
+
+::-ms-thumb {
+    background: #fff;
+    border: 2px solid #999;
+    height: 28px;
+    width: 15px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after {
+    display: none;
+}
+
+::-ms-ticks-before {
+    display: none;
+}
+
+::-ms-track {
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip {
+    display: none;
+>>>>>>> Stashed changes
 }
