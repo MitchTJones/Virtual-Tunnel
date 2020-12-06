@@ -25,6 +25,11 @@
     <!--                    <a class='eventLink sl' href="{{ url_for('event', eventId=event.event_id) }}">{{event.name}}</a>-->
     <!--                {% endfor %}-->
                     <h3>My Organizations</h3>
+                    {% if orgs %}
+                        {% for org in orgs %}
+                            <div>{{ org.org }}</div>
+                        {% endfor %}
+                    {% endif %}
                     <a class='button' href="{{ url_for('logout') }}">Log Out</a>
                 {% else %}
                     <h2>Your Account</h2>
@@ -41,8 +46,8 @@
                         <div class='line'>{{ sform.email.label }}{{ sform.email() }}</div><br>
                         <div class='line'>{{ sform.username.label }}{{ sform.username() }}</div><br>
                         <div class='line'>{{ sform.password.label }}{{ sform.password() }}</div><br>
-                        <div class='line'>{{ sform.password2.label }}{{ sform.password2() }}</div><br>
-                        {{ sform.recaptcha }}
+                        <div class='line'>{{ sform.password2.label }}{{ sform.password2() }}</div>
+                        <div class='line'>{{ sform.orgs.label }}{{ sform.orgs() }}</div>
                         <button class='button fSubmit'>Sign Up</button>
                     </form>
                 {% endif %}
@@ -62,7 +67,7 @@
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages%}
-                            {% if message|first == '`' %}
+                            {% if message|first == '~' %}
                                 <div>{{ message|replace('`', '') }}</div>
                             {% endif %}
                         {% endfor %}
@@ -90,6 +95,27 @@
                     <i class="fas fa-info-circle control" id="showInfo"></i>
                     <i class="fas fa-th control pageTurn" data-target="galleryPage"></i>
                 </div>
+            </div>
+        </div>
+        <div id="enterInfo" class="popUp-bg fs hidden">
+            <div class="popUp">
+                <h3>What a Masterpiece!</h3>
+                <h5>Give it a description before you publish it</h5>
+                <form name='submitForm' method='POST' action='{{ url_for("submit") }}' class="fs">
+                    {{ uform.hidden_tag() }}
+                    {{ uform.description }}
+                    {{ uform.org }}
+                    {% if orgs %}
+                        {% for org in orgs %}
+                            <div>{{ org.org }}</div>
+<!--                            <li>-->
+<!--                                <input name="orgs" type="checkbox" value="bsu">-->
+<!--                                <label>Black Student Union</label>-->
+<!--                            </li>-->
+                        {% endfor %}
+                    {% endif %}
+                    <button class='button fSubmit'>Submit</button>
+                </form>
             </div>
         </div>
     </main>

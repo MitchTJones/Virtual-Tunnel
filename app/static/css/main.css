@@ -37,8 +37,8 @@ main {
     position: absolute;
     z-index:2;
 }
-.page.hidden {
-    display:none;
+.hidden {
+    display:none !important;
 }
 #colorPicker:hover control {
     transform: scale(1.2);
@@ -299,6 +299,49 @@ input {
 }
 form {
     text-align:center;
+}
+
+ul {
+    list-style:none;
+    flex:1;
+    padding:0;
+}
+
+li > label, li > input {
+    width: auto !important;
+}
+
+#orgs li {
+    text-align:right;
+}
+
+.popUp-bg {
+    position:absolute;
+    z-index:3;
+    top:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#444;
+    rgba(68, 68, 68, 0.33)
+}
+
+.popUp {
+    z-index:4;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+    background:#ddd;
+    width:33%;
+    height:33%;
+    border-radius:10px;
+}
+
+.popUp input {
+    text-align:left;
 }
 
 /*

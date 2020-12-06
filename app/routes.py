@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, SubmitForm
 from app.models import User, Post, Organization
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -10,9 +10,18 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 
 page = 'paintPage'
 
+def flash_errors(form, type):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(type+error)
+
 @app.route('/')
 def index():
-    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), user = current_user)
+    # orgs = False
+    if current_user.is_authenticated:
+        orgs = Organization.query.filter_by(user_id=current_user.id)
+    print(orgs)
+    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, orgs = orgs)
 
 @app.route('/test')
 def test():
@@ -26,12 +35,12 @@ def signup():
     if form.validate_on_submit():
         new_user = User(username=form.username.data, email=form.email.data)
         new_user.set_password(form.password.data)
-        # if User.query.filter_by(username=form.username.data).first() is not None:
-        #     flash('`Username taken')
-        #     return redirect('/')
-        # if User.query.filter_by(email=form.email.data).first() is not None:
-        #     flash('`That email is already associated with a MeetUp account.')
-        #     return redirect('/')
+        if User.query.filter_by(username=form.username.data).first() is not None:
+            flash('`Username taken')
+            return redirect('/')
+        if User.query.filter_by(email=form.email.data).first() is not None:
+            flash('`That email is already associated with an account.')
+            return redirect('/')
         db.session.add(new_user)
         db.session.commit()
 
@@ -50,6 +59,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
+            print("HELLO")
             flash('`Wrong Username or Password')
         else:
             login_user(user, remember=form.remember_me.data)
@@ -61,4 +71,14 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect('/')
+
+@app.route('/submit')
+def submit():
+    if not current_user.is_authenticated:
+        return redirect('/')
+    form = SubmitForm()
+    if form.validate_on_submit():
+        print('hi')
+        # TODO: submission back-end
     return redirect('/')
