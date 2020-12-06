@@ -17,7 +17,7 @@
                 <div class='account'>
                     <i class='faButton fas fa-user-circle'></i>
                     <div class='uname'>{% if user.is_authenticated %}{{ user.username }}{% endif %}</div>
-                    <div class='close faButton'><i class="fas fa-times"></i></div>
+                    <div class='faButton' id="sidebarClose"><i class="fas fa-times"></i></div>
                 </div>
                 {% if user.is_authenticated %}
                     <h3>My Artworks</h3>
@@ -25,11 +25,9 @@
     <!--                    <a class='eventLink sl' href="{{ url_for('event', eventId=event.event_id) }}">{{event.name}}</a>-->
     <!--                {% endfor %}-->
                     <h3>My Organizations</h3>
-                    {% if orgs %}
-                        {% for org in orgs %}
-                            <div>{{ org.org }}</div>
-                        {% endfor %}
-                    {% endif %}
+                    {% for org in user.affiliated_org %}
+                        <div>{{ org }}</div>
+                    {% endfor %}
                     <a class='button' href="{{ url_for('logout') }}">Log Out</a>
                 {% else %}
                     <h2>Your Account</h2>
@@ -92,13 +90,16 @@
                     <input id="strokePicker" class="control" type="range" value="25">
                 </div>
                 <div class="controls br fc">
-                    <i class="fas fa-info-circle control" id="showInfo"></i>
+                    <i class="fas fa-info-circle control modalButton" data-target="enterInfo" id="showInfo"></i>
                     <i class="fas fa-th control pageTurn" data-target="galleryPage"></i>
                 </div>
             </div>
         </div>
-        <div id="enterInfo" class="popUp-bg fs hidden">
-            <div class="popUp">
+    </main>
+    <div class="modal hidden" id="enterInfo">
+        <div class="modalContent">
+            <div class="fs">
+                <div class='faButton closeParents'><i class="fas fa-times"></i></div>
                 <h3>What a Masterpiece!</h3>
                 <h5>Give it a description before you publish it</h5>
                 <form name='submitForm' method='POST' action='{{ url_for("submit") }}' class="fs">
@@ -106,19 +107,15 @@
                     {{ uform.description }}
                     {{ uform.org }}
                     {% if orgs %}
-                        {% for org in orgs %}
-                            <div>{{ org.org }}</div>
-<!--                            <li>-->
-<!--                                <input name="orgs" type="checkbox" value="bsu">-->
-<!--                                <label>Black Student Union</label>-->
-<!--                            </li>-->
-                        {% endfor %}
+                    {% for org in orgs %}
+
+                    {% endfor %}
                     {% endif %}
                     <button class='button fSubmit'>Submit</button>
                 </form>
             </div>
         </div>
-    </main>
+    </div>
 <!--    <script> var p = new Painter(containerPainter); </script>-->
     {% include 'includes/footer.html' %}
 </body>

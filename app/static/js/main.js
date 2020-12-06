@@ -4,7 +4,7 @@ $(document).ready(() => {
     let body = $('.body');
     let accountButton = $('#accountButton');
     let sidebar = $('.sidebar');
-    let sidebarClose = $('.close');
+    let sidebarClose = $('#sidebarClose');
     let sidebarError = $('.sidebarError');
     let sidebarFlash = $('.sidebarFlash');
     accountButton.click(function() {toggleSidebar(sidebar)});
@@ -53,6 +53,16 @@ $(document).ready(() => {
             tool = $(this).data('tool');
         else
             tool = "none";
+    });
+    $('.modalButton').click(function() {
+        var jq = $(this), tgt = $('#'+jq.data('target'));
+        tgt.removeClass('hidden');
+    });
+    $('.modal').click(function() {
+        $(this).addClass('hidden').children().click(function(e) { return false; });
+    });
+    $('.closeParents').click(function() {
+        $(this).parents('.modal').addClass('hidden');
     });
     $(window).on('resize', function() {
         var current = map;

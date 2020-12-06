@@ -1,6 +1,6 @@
 from app.models import User, Organization
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, HiddenField, SelectMultipleField, widgets
+from wtforms import StringField, TextAreaField, PasswordField, BooleanField, SubmitField, HiddenField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired, ValidationError, DataRequired, Email, EqualTo
 
 ##Forms
@@ -30,6 +30,6 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 class SubmitForm(FlaskForm):
-    description = StringField('Description', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
     org = HiddenField('Organization')
     submit = SubmitField('Publish')
