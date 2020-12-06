@@ -58,18 +58,17 @@ $(document).ready(() => {
         var jq = $(this), tgt = $('#'+jq.data('target'));
         tgt.removeClass('hidden');
     });
-    $('.modal').click(function() {
+    $('.modal').click(function(e) {
+        if(e.target !== e.currentTarget) return;
         $(this).addClass('hidden').children().click(function(e) { return false; });
     });
     $('.closeParents').click(function() {
         $(this).parents('.modal').addClass('hidden');
     });
     $(window).on('resize', function() {
-        var current = map;
         var jq = $(this);
         canvas.width = jq.width();
         canvas.height = jq.height();
-        drawFromPlots(current);
     });
 });
 

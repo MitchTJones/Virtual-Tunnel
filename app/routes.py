@@ -83,7 +83,7 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/submit')
+@app.route('/submit', methods=['POST'])
 def submit():
     if not current_user.is_authenticated:
         return redirect('/')
