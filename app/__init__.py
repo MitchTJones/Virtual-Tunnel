@@ -13,6 +13,10 @@ login = LoginManager(app)
 login.init_app(app)
 login.login_view = 'login'
 
+@login.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
 #running shell- can delete later
 @app.shell_context_processor
 def make_shell_context():

@@ -83,6 +83,13 @@ $(document).ready(() => {
         canvas.width = jq.width();
         canvas.height = jq.height();
     });
+    
+    $('#submitBtn').click(function() {
+        console.log("you clicked me")
+        //converts data to string
+        var dataURI = canvas.toDataURI();
+        $('#art').val(dataURI);
+    });
 });
 
 function toggleSidebar(sidebar) {
@@ -100,3 +107,17 @@ function pick(c) {
     ctx.strokeStyle = hex;
     $('#color').html(hex);
 }
+
+function submitFile(ctx) {
+    var theBlob = ctx.toBlob();
+    var filename = makeid(5);
+    var image = blobToFile(theBlob, filename);
+    console.log(filename)
+}
+
+
+function blobToFile(theBlob, fileName){
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    return theBlob;
+};

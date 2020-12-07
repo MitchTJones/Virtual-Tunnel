@@ -7,8 +7,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
+from binascii import a2b_base64
+import random
+import string
+
 
 page = 'paintPage'
+
+def get_filename():
+    name = current_user.username
+    number = str(random.randint(100, 900))
+    return name + number
 
 def flash_errors(form, type):
     for field, errors in form.errors.items():
@@ -92,6 +101,15 @@ def submit():
     form = SubmitForm()
     if form.validate_on_submit():
         print('hi')
-        # TODO: submission back-end
+        filename = get_filename()
+        print(filename)
+        data_uri = form.art.data
+        header, encoded = data_uri.split(",", 1)
+        data = b64decode(encoded)
+        with open(filename, "wb") as f:
+            f.write(data)
+            f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+        new_post = Post(filename = filename, description=form.data.description, organization=form.data.org, user_id=current_user.id)
     flash('|Artwork Submitted')
     return redirect('/')
+

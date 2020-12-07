@@ -128,7 +128,10 @@
                     {{ uform.hidden_tag() }}
                     {{ uform.description }}
                     {{ uform.org }}
-                    {{ uform.art }}
+                    {{ uform.art}}
+                </div>
+                
+                    
                     <div id="orgSelect">
                         {% if orgs %}
                             {% for org in orgs %}
@@ -136,9 +139,10 @@
                             {% endfor %}
                         {% endif %}
                     </div>
+                    <div id = submitBtn>
                     <button class='button fSubmit'>Submit</button>
+                </div>
                 </form>
-            </div>
         </div>
     </div>
     <div class="modal hidden" id="viewInfo">
