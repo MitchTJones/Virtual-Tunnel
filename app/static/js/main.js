@@ -1,4 +1,9 @@
 let canvas, ctx;
+canvas = document.querySelector("#canvas");
+let canvasDims = canvas.parentElement.getBoundingClientRect();
+canvas.width = canvasDims.width;
+canvas.height = canvasDims.height;
+ctx = canvas.getContext("2d");
 let view = false;
 $(document).ready(() => {
     let body = $('.body');
@@ -11,11 +16,6 @@ $(document).ready(() => {
     sidebarClose.click(function() {toggleSidebar(sidebar)});
     if(sidebarError.children().length > 0 || sidebarFlash.children().length > 0)
         sidebar.addClass('open');
-    canvas = document.querySelector("#canvas");
-    let canvasDims = canvas.parentElement.getBoundingClientRect();
-    canvas.width = canvasDims.width;
-    canvas.height = canvasDims.height;
-    ctx = canvas.getContext("2d");
     let bc = $('#colorPicker');
     bc.bcPicker();
     pick('rgb(0,0,0)');

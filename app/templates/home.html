@@ -8,6 +8,28 @@
 <body>
     {% include 'includes/header.html' %}
     <main class="body fs" data-currentPage="{{ activePage }}">
+        <div id='bodyFlash' class='bodyFlash'>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages%}
+                        {% if message|first == '|' %}
+                            <div>{{ message|replace('|', '') }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <div id='bodyError' class='bodyFlash'>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages%}
+                        {% if message|first == '-' %}
+                            <div>{{ message|replace('-', '') }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
         <img id="logo" src='{{ url_for("static", filename="favicon/main.png") }}'>
         <div id="accountButton" class="tr control">
             <i id="userIcon" class="fas fa-user-circle"></i>

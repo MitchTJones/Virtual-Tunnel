@@ -284,6 +284,26 @@ input {
     padding:15px;
     text-align:center;
 }
+.bodyFlash {
+    width:100%;
+    height:auto;
+}
+.bodyFlash > div {
+    padding:15px;
+    text-align:center;
+}
+#bodyError {
+    background:#E04E39;
+}
+#bodyError > div {
+    color:white;
+}
+#bodyFlash {
+    background:#39E04E;
+}
+#bodyFlash > div {
+    color:#454545;
+}
 .line.border {
     border-bottom: 1px solid gray !important;
 }
