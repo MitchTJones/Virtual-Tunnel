@@ -19,7 +19,7 @@ page = 'paintPage'
 def get_filename():
     name = current_user.username
     number = str(random.randint(100, 900))
-    return name + number
+    return name + number + ".jpeg"
 
 def flash_errors(form, type):
     for field, errors in form.errors.items():
@@ -113,7 +113,7 @@ def submit():
         with open(fullFN, "wb") as f:
             f.write(data)
             # f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-        new_post = Post(filename = filename, description=form.data.description, organization=form.data.org, user_id=current_user.id)
+        new_post = Post(filename = fullFN, description=form.data.description, organization=form.data.org, user_id=current_user.id)
     flash('|Artwork Submitted')
     return redirect('/')
 
