@@ -99,6 +99,20 @@
             <div class="controls br">
                 <i class="fas fa-paint-brush control pageTurn" data-target="paintPage"></i>
             </div>
+            <div id="gallery">
+                {% for _ in range(8) %}
+                    <div id="galleryImage">
+                        <img src='{{ url_for("static", filename="images/doge.jpg") }}'>
+                        <p> this is a caption </p>
+                    </div>
+                {% endfor %}
+                <!-- {% for post in posts %}
+                    <div id="galleryImage">
+                        <img src='{{ url_for("static", filename="") }}'>
+                        <p> this is a caption </p>
+                    </div>
+                {% endfor %} -->
+            </div>
         </div>
         <div id="paintPage" class="fs page">
             <div id="wrapper" class="fs">
