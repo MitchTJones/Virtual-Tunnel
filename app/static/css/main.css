@@ -416,10 +416,14 @@ li > label, li > input {
     cursor:pointer;
  }
  #gallery {
-    float: left;
-    margin: 100px;
-    width: 75%;
+    width:100%;
+    min-height:100%;
+    display:flex;
+    justify-content:space-evenly;
     overflow-y: scroll;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    padding: 83px;
  }
  #galleryImage {
     margin: 20px;
