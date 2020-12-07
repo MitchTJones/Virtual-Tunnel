@@ -10,6 +10,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from binascii import a2b_base64
 import random
 import string
+import base64
+import os.path
 
 
 page = 'paintPage'
@@ -103,12 +105,14 @@ def submit():
         print('hi')
         filename = get_filename()
         print(filename)
+        fullFN = os.path.join(app.config["IMAGE_UPLOADS"], filename)
+        print(fullFN)
         data_uri = form.art.data
         header, encoded = data_uri.split(",", 1)
-        data = b64decode(encoded)
-        with open(filename, "wb") as f:
+        data = base64.b64decode(encoded)
+        with open(fullFN, "wb") as f:
             f.write(data)
-            f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+            # f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
         new_post = Post(filename = filename, description=form.data.description, organization=form.data.org, user_id=current_user.id)
     flash('|Artwork Submitted')
     return redirect('/')

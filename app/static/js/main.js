@@ -87,8 +87,8 @@ $(document).ready(() => {
     $('#submitBtn').click(function() {
         console.log("you clicked me")
         //converts data to string
-        var dataURI = canvas.toDataURI();
-        $('#art').val(dataURI);
+        var dataURL = canvas.toDataURL();
+        $('#art').val(dataURL);
     });
 });
 
