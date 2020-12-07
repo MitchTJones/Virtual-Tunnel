@@ -18,11 +18,14 @@ def flash_errors(form, type):
 
 @app.route('/')
 def index():
-    orgs = False
+    orgs = allPosts = myPosts = False
+    allPosts = Post.query.order_by(Post.timestamp).all()
+
     if current_user.is_authenticated:
         orgs = Organization.query.filter_by(user_id=current_user.id)
-        return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, orgs = orgs)
-    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user)
+        myPosts = Post.query.filter_by(user_id=current_user.id).order_by(Post.timestamp).all()
+        return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, allPosts = allPosts, orgs = orgs, myPosts = myPosts)
+    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, allPosts = allPosts)
 
 @app.route('/test')
 def test():
@@ -92,6 +95,7 @@ def submit():
     form = SubmitForm()
     if form.validate_on_submit():
         print('hi')
+        
         # TODO: submission back-end
     flash('|Artwork Submitted')
     return redirect('/')
