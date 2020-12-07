@@ -35,6 +35,28 @@
             <i id="userIcon" class="fas fa-user-circle"></i>
         </div>
         <div class='sidebar'>
+            <div class='sidebarFlash'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '~' %}
+                                <div>{{ message|replace('~', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class='sidebarError'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '`' %}
+                                <div>{{ message|replace('`', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
             <div class='sidebarContent'>
                 <div class='account'>
                     <i class='faButton fas fa-user-circle'></i>
@@ -71,28 +93,6 @@
                         <button class='button fSubmit'>Sign Up</button>
                     </form>
                 {% endif %}
-            </div>
-            <div class='sidebarFlash'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages%}
-                            {% if message|first == '~' %}
-                                <div>{{ message|replace('~', '') }}</div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-            </div>
-            <div class='sidebarError'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages%}
-                            {% if message|first == '~' %}
-                                <div>{{ message|replace('`', '') }}</div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
             </div>
         </div>
         <div id="galleryPage" class="fs page hidden">

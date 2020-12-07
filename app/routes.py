@@ -86,7 +86,6 @@ def logout():
 @app.route('/submit', methods=['POST'])
 def submit():
     if not current_user.is_authenticated:
-        print("ouch")
         flash('-You must be logged in to submit your artwork!')
         return redirect('/')
     form = SubmitForm()
