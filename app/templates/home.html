@@ -35,6 +35,28 @@
             <i id="userIcon" class="fas fa-user-circle"></i>
         </div>
         <div class='sidebar'>
+            <div class='sidebarFlash'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '~' %}
+                                <div>{{ message|replace('~', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class='sidebarError'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages%}
+                            {% if message|first == '`' %}
+                                <div>{{ message|replace('`', '') }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
             <div class='sidebarContent'>
                 <div class='account'>
                     <i class='faButton fas fa-user-circle'></i>
@@ -72,32 +94,24 @@
                     </form>
                 {% endif %}
             </div>
-            <div class='sidebarFlash'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages%}
-                            {% if message|first == '~' %}
-                                <div>{{ message|replace('~', '') }}</div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-            </div>
-            <div class='sidebarError'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages%}
-                            {% if message|first == '~' %}
-                                <div>{{ message|replace('`', '') }}</div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-            </div>
         </div>
         <div id="galleryPage" class="fs page hidden">
             <div class="controls br">
                 <i class="fas fa-paint-brush control pageTurn" data-target="paintPage"></i>
+            </div>
+            <div id="gallery" class="fs">
+                <!-- {% for _ in range(8) %}
+                    <div id="galleryImage">
+                        <img src='{{ url_for("static", filename="images/doge.jpg") }}'>
+                        <p> this is a caption </p>
+                    </div>
+                {% endfor %} -->
+                {% for post in posts %}
+                    <div id="galleryImage">
+                        <img src='{{ url_for("static", filename=post.filename) }}'>
+                        <p> {{ post.description }} </p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
         <div id="paintPage" class="fs page">
@@ -128,8 +142,10 @@
                     {{ uform.hidden_tag() }}
                     {{ uform.description }}
                     {{ uform.org }}
-                    {{ uform.art}}
-                </div>
+                    <div id = "art">
+                    <input type="hidden">
+                    </div>
+                    
                 
                     
                     <div id="orgSelect">
@@ -139,9 +155,11 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div id = "submitBtn">
-                    <button class='button fSubmit'>Submit</button>
-                </div>
+                    <p>edited</p>
+                    <div id = 'submitBtn'>
+                        <button class='button fSubmit'>Submit</button>
+                    </div>
+                    </div>
                 </form>
         </div>
     </div>

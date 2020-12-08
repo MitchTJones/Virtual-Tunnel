@@ -415,6 +415,26 @@ li > label, li > input {
     color:white;
     cursor:pointer;
  }
+ #gallery {
+    width:100%;
+    min-height:100%;
+    display:flex;
+    justify-content:space-evenly;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    padding: 83px;
+ }
+ #galleryImage {
+    margin: 20px;
+    float: left;
+    max-width: 300px;
+    /*overflow-y: scroll;*/
+ }
+ #galleryImage p {
+    text-align: center;
+    padding-top: 5px;
+ }
 
 /*
     Button graphics adapted from Emanuel Gonçalves' (https://emanuelgsouza.dev/) work at https://codepen.io/emanuelgsouza/pen/YVJOZo. https://emanuelgsouza.dev/

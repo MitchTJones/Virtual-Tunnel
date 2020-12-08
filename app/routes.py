@@ -29,11 +29,14 @@ def flash_errors(form, type):
 
 @app.route('/')
 def index():
-    orgs = False
+    orgs = allPosts = myPosts = False
+    allPosts = Post.query.order_by(Post.timestamp).all()
+
     if current_user.is_authenticated:
         orgs = Organization.query.filter_by(user_id=current_user.id)
-        return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, orgs = orgs)
-    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user)
+        myPosts = Post.query.filter_by(user_id=current_user.id).order_by(Post.timestamp).all()
+        return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, allPosts = allPosts, orgs = orgs, myPosts = myPosts)
+    return render_template('home.html', activePage = page, lform = LoginForm(), sform = RegistrationForm(), uform = SubmitForm(), user = current_user, allPosts = allPosts)
 
 @app.route('/test')
 def test():
@@ -97,7 +100,6 @@ def logout():
 @app.route('/submit', methods=['POST'])
 def submit():
     if not current_user.is_authenticated:
-        print("ouch")
         flash('-You must be logged in to submit your artwork!')
         return redirect('/')
     form = SubmitForm()
@@ -108,11 +110,12 @@ def submit():
         fullFN = os.path.join(app.config["IMAGE_UPLOADS"], filename)
         print(fullFN)
         data_uri = form.art.data
-        header, encoded = data_uri.split(",", 1)
-        data = base64.b64decode(encoded)
-        with open(fullFN, "wb") as f:
-            f.write(data)
-            # f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+        print(data_uri)
+        # data = base64.b64decode(data_uri)
+        # # with open(fullFN, "wb") as f:
+        # #     f.write(data)
+            
+        # #     save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
         new_post = Post(filename = filename, description=form.data.description, organization=form.data.org, user_id=current_user.id)
     flash('|Artwork Submitted')
     return redirect('/')

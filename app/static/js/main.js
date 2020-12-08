@@ -12,6 +12,7 @@ $(document).ready(() => {
     let sidebarClose = $('#sidebarClose');
     let sidebarError = $('.sidebarError');
     let sidebarFlash = $('.sidebarFlash');
+    let submitButton = $('#submitBtn');
     accountButton.click(function() {toggleSidebar(sidebar)});
     sidebarClose.click(function() {toggleSidebar(sidebar)});
     if(sidebarError.children().length > 0 || sidebarFlash.children().length > 0)
@@ -68,7 +69,7 @@ $(document).ready(() => {
     $('.closeParents').click(function() {
         $(this).parents('.modal').addClass('hidden');
     });
-    $('.org').click(function() {
+    $('.org').click(function() {  
         var jq = $(this);
         if (jq.hasClass('active')) {
             jq.removeClass('active');
@@ -78,18 +79,19 @@ $(document).ready(() => {
         jq.addClass('active');
         $('#org').val('');
     });
+    $('#submitBtn').on('click', function () {
+        console.log('you clicked me');
+        console.log(canvas.toDataURL().toString());
+         $('#art').val(canvas.toDataURL().toString());
+    });  
     $(window).on('resize', function() {
         var jq = $(this);
+        console.log("resized");
         canvas.width = jq.width();
         canvas.height = jq.height();
     });
     
-    $('#submitBtn').click(function() {
-        console.log("you clicked me")
-        //converts data to string
-        var dataURL = canvas.toDataURL();
-        $('#art').val(dataURL);
-    });
+      
 });
 
 function toggleSidebar(sidebar) {
